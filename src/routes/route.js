@@ -12,7 +12,9 @@ router.get('/test-me', function (req, res) {
 });
 
 
-
+router.get('/candidates', function (req,res){
+    res.send('[a],[b],')
+})
 
 module.exports = router;
 // adding this comment for no reason
