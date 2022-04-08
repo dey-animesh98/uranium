@@ -1,88 +1,58 @@
 const express = require('express');
 const logger = require('./logger')
+// const missingNumber = require('../missingNumber')
 
 const router = express.Router();
 
-router.get('/user-profile/:abcd', function(req, res) {
-    console.log(req)
-    console.log(req.params.abcd)
-    res.send('dummy response')
-})
+router.get('/msgn', function (req, res) {
+    
+    const theMissing=[1,2,3,4,5,7,8,9,10]
+    const missingSum = theMissing.reduce(function(acc,curr){
+        acc = acc + curr
+        return acc
+    }, 0 );
+    
+    let allSum = function(){
+       let theall= 10*(10+1)/2
+        return theall
+    }
+    const theMissingNumber = (allSum()-missingSum)
+    res.send( {missing: theMissingNumber});
 
-router.get('/test-me', function (req, res) {
-    console.log('------------------')
-    console.log(req)
-    console.log('------------------')
-    console.log('These are the request query parameters: ', req.query)
-    res.send('My first ever api!')
 });
 
 
+router.get('/prob1', function (req, res) {
+    res.send(missingNumber.prob1());
+});
 
+router.get('/prob2', function (req, res) {
+    res.send(missingNumber.prob2());
+});
 
-
-router.get('/movies', function(req,res){
-    const movieList = ["Titanic", "Conjuring", "Superman", "Avengers", "Harry Potter", "3 Iditots"]
-    res.send(movieList)
-
-})
-
-
-router.get('/movies/:indexNumber', function(req,res){
-    const movieList1 = ["Titanic", "Conjuring", "Superman", "Avengers", "Harry Potter", "3 Iditots"]
-    const movieId = req.params.indexNumber
-    for ( let i =0 ; i < movieList1.length; i++){
-        if (movieId < movieList1.length){
-            return res.send(movieList1[movieId])
-        }else if(movieId > movieList1.length ){
-            return res.send("Invalid user input")
-        }      
-    }  
-})
-
-
-router.get('/films', function(req,res){
-    const filmList =[
-                         {"id" :1, "name" : "Titanic"},
-                         {"id" :2, "name" : "Conjuring"},
-                         {"id" :3, "name" : "Superman"},
-                         {"id" :4, "name" : "Avengers"},
-                         {"id" :5, "name" : "Harry Potter"},
-                    ]
-
-    res.send(filmList)
-})
-
-router.get('/films/:fid', function(req,res){
-    const filmList =[
-                         {"id" :1, "name" : "Titanic"},
-                         {"id" :2, "name" : "Conjuring"},
-                         {"id" :3, "name" : "Superman"},
-                         {"id" :4, "name" : "Avengers"},
-                         {"id" :5, "name" : "Harry Potter"},
-                    ]
-   
-    const getFilmId = req.params.fid
-    res.send(getFilmId)
-})
-
-router.get('/missing',  function(req,res){
-const theMissing=[1,2,3,4,5,7,8,9,10]
-const missingSum = theMissing.reduce(function(acc,curr){
-    acc = acc + curr
-    return acc
-}, 0 );
-
-let allSum = function(){
-   let theall= 10*(10+1)/2
-    return theall
-}
-const theMissingNumber = (allSum()-missingSum)
-console.log(theMissingNumber)
-res.send("this is working")
-
-})
 
 module.exports = router;
+
+
+
+
+
+
+
+
 // adding this comment for no reason
 //take req. param er  input ke function er argument pass
+
+// router.get('/user-profile/:abcd', function(req, res) {
+//     console.log(req)
+//     console.log(req.params.abcd)
+//     res.send('dummy response')
+// })
+
+// router.get('/test-me', function (req, res) {
+//     console.log('------------------')
+//     console.log(req)
+//     console.log('------------------')
+//     console.log('These are the request query parameters: ', req.query)
+//     res.send('My first ever api!')
+// });
