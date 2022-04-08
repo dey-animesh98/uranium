@@ -34,7 +34,7 @@ router.get('/movies/:indexNumber', function(req,res){
     for ( let i =0 ; i < movieList1.length; i++){
         if (movieId < movieList1.length){
             return res.send(movieList1[movieId])
-        }else if(movieId > movieList1.length){
+        }else if(movieId > movieList1.length ){
             return res.send("Invalid user input")
         }      
     }  
@@ -53,7 +53,7 @@ router.get('/films', function(req,res){
     res.send(filmList)
 })
 
-router.get('/films/:filmId', function(req,res){
+router.get('/films/:fid', function(req,res){
     const filmList =[
                          {"id" :1, "name" : "Titanic"},
                          {"id" :2, "name" : "Conjuring"},
@@ -62,18 +62,27 @@ router.get('/films/:filmId', function(req,res){
                          {"id" :5, "name" : "Harry Potter"},
                     ]
    
-    const getFilmId = req.params.filmId
-    for ( let i =0 ; i < filmList.length; i++){
-        const myFilm = filmList[i]
-        if( filmList.id === getFilmId){
-            return res.send(filmList[myFilm])
-        }
-     }  
-
-    
+    const getFilmId = req.params.fid
+    res.send(getFilmId)
 })
 
+router.get('/missing',  function(req,res){
+const theMissing=[1,2,3,4,5,7,8,9,10]
+const missingSum = theMissing.reduce(function(acc,curr){
+    acc = acc + curr
+    return acc
+}, 0 );
 
+let allSum = function(){
+   let theall= 10*(10+1)/2
+    return theall
+}
+const theMissingNumber = (allSum()-missingSum)
+console.log(theMissingNumber)
+res.send("this is working")
+
+})
 
 module.exports = router;
 // adding this comment for no reason
+//take req. param er  input ke function er argument pass
