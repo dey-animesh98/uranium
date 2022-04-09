@@ -19,18 +19,7 @@ router.get('/all-candidates', function (req,res){
     res.send(listOFCandidates)
 })
 
-router.get('/candidates', function(req, res){
-   
-    const listOFCandidates =["Rahul","Jay","Ram", "Raju", "Avi","Vimal", "Azad", "Kanai","Raja", "Rahim"]
-    for (let i=0; i<listOFCandidates.length; i++ ) {
-        let finalCandidate = listOFCandidates[i] 
-    }
-//    console.log(req.query.key)
-    res.send ({
-        finalCandidate : req.query.key}
-    )
-
-})
+router.get('/candidates', logger.finalStudent)
 
 module.exports = router;
 // adding this comment for no reason
