@@ -37,19 +37,19 @@ let players =
 module.exports.allPlayers = addPlayer
 
 
-// const addPlayer2 = function(req,res){
-// const newPlayer2 = req.body
-// for(let i =0; i<players.length; i++){
-//     const thePlayer = players[i]
-//     if ( thePlayer.name  === newPlayer2.name){
-//          return res.send("The player name already exists!!")
-//         }
-//     }
-//         players.push(newPlayer2)
-//         res.send({players:players })
-//     }
+const addPlayer2 = function(req,res){
+const newPlayer2 = req.body
+for(let i =0; i<players.length; i++){
+    const thePlayer = players[i]
+    if ( thePlayer.name  === newPlayer2.name){
+         return res.send("The player name already exists!!")
+        }
+    }
+        players.push(newPlayer2)
+        res.send({players:players })
+    }
  
-// module.exports.allPlayers2 = addPlayer2
+module.exports.allPlayers2 = addPlayer2
 
 
 
