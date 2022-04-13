@@ -14,9 +14,7 @@ const bookSchema = new mongoose.Schema(
 
         isPublished: Boolean,
 
-        publishYear: {
-            type: String, default: 2021
-        },
+        publishYear: Number,
 
         prices: {
             indianPrice: String,

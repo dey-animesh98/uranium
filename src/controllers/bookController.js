@@ -27,13 +27,21 @@ const getBookByYear= async function (req, res) {
     res.send({msg: bookByYear})
 }
 
-//Problem 4
+//Problem 4  Method 1
 const getBookByParticular= async function (req, res) {  
     let bookType = req.query.type 
     let bookAuth = req.query.author
     let bookByType= await BookModel.find({$or: [{tags:{$eq : bookType}},{authorName:{$eq:bookAuth}}] })
     res.send({msg: bookByType})
 }
+//Problem 4  Method 2
+const getParticularByBooks2 = async function(req,res){
+  let condition = req.query
+  let particularBooks2 = await BookModel.find(condition)
+  res.send({msg: particularBooks2})
+}
+
+
 
 // Problem 5
 const getBookByINR= async function (req, res) {  
@@ -53,6 +61,7 @@ module.exports.getBooksData= getBooksData
 module.exports.getBookList= getBookList
 module.exports.getBookByYear= getBookByYear
 module.exports.getBookByParticular= getBookByParticular
+module.exports.getParticularByBooks2= getParticularByBooks2
 module.exports.getBookByINR= getBookByINR
 module.exports.getBookByRandom = getBookByRandom
 
@@ -74,6 +83,13 @@ module.exports.getBookByRandom = getBookByRandom
 
 
 
+// const getParticularBooks = async function(req,res)
+// {
+//   let condition = req.body
+//   let particularBooks = await bookModel.find(condition)
+
+//   res.send(particularBooks)
+// }
 
 
 
