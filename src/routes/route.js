@@ -10,16 +10,10 @@ router.get("/test-me", function (req, res) {
 });
 //---------------------///---------------------//
 
+router.post("/createNewAuthor", MyController.createNewAuthor);
 router.post("/createNewBook", MyController.createNewBook);
 
-// router.get("/getBooksData", MyController.getBooksData)
 
-router.post("/createNewAuthor", MyController.createNewAuthor);
 
-router.get("/booksofChetan", MyController.booksByCB);
-
-router.post("/bookTwoState", MyController.bookTS)
-
-router.post("/bookByPrices",MyController.bookByPrice )
 
 module.exports = router;
