@@ -2,16 +2,9 @@ const mongoose = require("mongoose");
 
 const authorSchema = new mongoose.Schema(
   {
-    author_id: {
-      type: Number,
-      required: true,
-    },
-    authorName: {
-      type: String,
-      required: true,
-    },
+    author_id: Number,
+    authorName: String,
     age: Number,
-
     address: String,
   },
   { timestamps: true }
