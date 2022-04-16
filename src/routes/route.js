@@ -10,8 +10,10 @@ router.get("/test-me", function (req, res) {
 });
 //---------------------///---------------------//
 
-router.post("/createNewAuthor", MyController.createNewAuthor);
-router.post("/createNewBook", MyController.createNewBook);
+router.post("/newAuthor", MyController.createNewAuthor);
+router.post("/newPublisher", MyController.createNewPublisher);
+router.post("/newBook", MyController.createNewBook)
+router.get("/bookDetails", MyController.allDetails)
 
 
 
