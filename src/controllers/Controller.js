@@ -1,8 +1,5 @@
-
-const authorModel = require("../models/authorModel");
 const AuthorModel = require("../models/authorModel");
 const BookModel = require("../models/bookModel");
-const publisherModel = require("../models/publisherModel");
 const PublisherModel = require("../models/publisherModel")
 
 //Problem 1
@@ -41,7 +38,7 @@ const createNewBook = async function (req, res) {
 
         } else if (!thePublisher) {
             res.send({ msg: "Publisher not Found" })
-       
+
         } else {
 
             const bookData = await BookModel.create(data)
@@ -54,14 +51,41 @@ const createNewBook = async function (req, res) {
 
 //Problem 4
 const allDetails = async function (req, res) {
-    const bookDetail = await BookModel.find().populate('author publisher') //(['author', 'publisher']) //.populate('publisher').populate('author)
+    const bookDetail = await BookModel.find().populate('author publisher')      //(['author', 'publisher']) //.populate('publisher').populate('author)
     res.send({ msg: bookDetail })
 }
+
+
+//Problem 5
+const updateBooks = async function (req, res) {
+    //Problem 5a
+    await PublisherModel.find(
+        { publisherName: { $in: ["Penguine", "Harper Collins"] } }).updateMany({ $set: { isHardCover: true } })
+    
+        // or,.updateMany({publisherName:{$in:["Risen Star"]}},{$set:{isHardCover:true}})
+
+    //Problem 5b
+    const ratedAuthorId = await AuthorModel.find(
+        { rating: { $gt: 3.5 } }).select({ _id: 1 })
+
+    await BookModel.updateMany(
+        { author: ratedAuthorId }, { $inc: { price: 10 } }, { new: true })
+
+    const finalUpdates = await BookModel.find()
+
+    res.send({ msg: finalUpdates })
+}
+
+// Find books by Author Name
+
+
+
 
 module.exports.createNewAuthor = createNewAuthor
 module.exports.createNewPublisher = createNewPublisher
 module.exports.createNewBook = createNewBook;
 module.exports.allDetails = allDetails
+module.exports.updateBooks = updateBooks
 
 
 
