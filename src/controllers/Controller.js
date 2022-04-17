@@ -25,9 +25,9 @@ const createNewBook = async function (req, res) {
     if (!data.author && !data.publisher) {
         (res.send({ msg: "Please Fill the required fields Author & Publisher details!!" }))
     } else if (!data.author) {
-        (res.send({ msg: "Please Fill the required fields Author Details!!" }))
+        (res.send({ msg: "Please Fill the required fields Author Details!!" }))                                             //3a 
     } else if (!data.publisher) {
-        (res.send({ msg: "Please Fill the required fields Publisher Details!!" }))
+        (res.send({ msg: "Please Fill the required fields Publisher Details!!" }))                                          //3b
     } else {
 
         const theAuthor = await AuthorModel.findById(authorId)
