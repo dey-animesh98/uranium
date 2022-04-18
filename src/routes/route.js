@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const MyController = require("../controllers/Controller");
-
+const devController = require("../controllers/developerController");
+const batchController =require("../controllers/batchController")
 
 //---------------------TEST--API---------------------//
 router.get("/test-me", function (req, res) {
@@ -9,11 +9,15 @@ router.get("/test-me", function (req, res) {
 });
 //---------------------///---------------------//
 
-router.post("/newAuthor", MyController.createNewAuthor);
-router.post("/newPublisher", MyController.createNewPublisher);
-router.post("/newBook", MyController.createNewBook)
-router.get("/bookDetails", MyController.allDetails)
-router.put("/books", MyController.updateBooks)
+
+router.post("/batches", batchController.createNewBatch)
+
+router.post("/developers", devController.createNewDeveloper)
+
+router.get("/scholarship-developers", devController.getFemaleScholar)
+
+router.get("/developer", devController.getDeveloper)
+
 
 
 
