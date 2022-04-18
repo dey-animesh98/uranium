@@ -61,8 +61,6 @@ const updateBooks = async function (req, res) {
     //Problem 5a
     await PublisherModel.find(
         { publisherName: { $in: ["Penguine", "Harper Collins"] } }).updateMany({ $set: { isHardCover: true } })
-    
-        // or,.updateMany({publisherName:{$in:["Risen Star"]}},{$set:{isHardCover:true}})
 
     //Problem 5b
     const ratedAuthorId = await AuthorModel.find(
@@ -89,3 +87,4 @@ module.exports.updateBooks = updateBooks
 
 
 
+  // or,.updateMany({publisherName:{$in:["Risen Star"]}},{$set:{isHardCover:true}})
