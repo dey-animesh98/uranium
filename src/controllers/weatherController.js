@@ -1,25 +1,9 @@
 let axios = require("axios")
+const { options } = require("../routes/route")
 
 
-// let getStates = async function (req, res) {
-
-//     try {
-//         let options = {
-//             method: 'get',
-//             url: 'https://cdn-api.co-vin.in/api/v2/admin/location/states'
-//         }
-//         let result = await axios(options)
-//         let data = result.data  
-//         res.status(200).send({ msg: data, status: true })
-//     }
-//     catch (err) {
-//         console.log(err)
-//         res.status(500).send({ msg: err.message })
-//     }
-// }
-
-let getweather = async function(req,res){
-    try{
+let getweather = async function (req, res) {
+    try {
         let city = req.query.q
         let id = req.query.appid
         let options = {
@@ -27,9 +11,34 @@ let getweather = async function(req,res){
             url: `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${id}`
         }
         let result = await axios(options)
-        res.status(200).send({status:true, msg: result.data}) //.main.temp
+        res.status(200).send({ status: true, msg: result.data }) //.main.temp
 
-    }catch (err) {
+    } catch (err) {
+        console.log(err)
+        res.status(500).send({ msg: err.message })
+    }
+}
+
+const sortByCities = async function (req, res) {
+    try {
+        // let id = req.query.appid
+        let cities = ["Bengaluru", "Mumbai", "Delhi", "Kolkata", "Chennai", "London", "Moscow"]
+        let cityTempList = []
+        for (let i = 0; i < cities.length; i++) {
+            let myCity = { city: cities[i] }
+
+            let options = {
+                method: "get",
+                url: `http://api.openweathermap.org/data/2.5/weather?q=${cities[i]}&appid=63362e88851a1da3fb7a18912571b3cc`  //${id}
+            }
+            let result = await axios(options)
+            myCity.temperature = result.data.main.temp
+            cityTempList.push(myCity)
+
+        }
+        let tempSort = cityTempList.sort((a, b) => a.temperature - b.temperature)
+        res.status(200).send({ status: true, msg: tempSort })
+    } catch (err) {
         console.log(err)
         res.status(500).send({ msg: err.message })
     }
@@ -38,3 +47,4 @@ let getweather = async function(req,res){
 
 
 module.exports.getweather = getweather
+module.exports.sortByCities = sortByCities

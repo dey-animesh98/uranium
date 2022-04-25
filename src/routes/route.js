@@ -12,4 +12,6 @@ router.get("/test-me", function (req, res) {
 
 router.get("/weather/city",weatherController.getweather)
 
+router.get("/weather/my-cities", weatherController.sortByCities)
+
 module.exports = router;
