@@ -11,7 +11,7 @@ let getweather = async function (req, res) {
             url: `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${id}`
         }
         let result = await axios(options)
-        res.status(200).send({ status: true, msg: result.data }) //.main.temp
+        res.status(200).send({ status: true, msg: result.data.main.temp }) //
 
     } catch (err) {
         console.log(err)
@@ -22,7 +22,7 @@ let getweather = async function (req, res) {
 const sortByCities = async function (req, res) {
     try {
         // let id = req.query.appid
-        let cities = ["Bengaluru", "Mumbai", "Delhi", "Kolkata", "Chennai", "London", "Moscow"]
+        let cities = ["Bengaluru", "Mumbai", "Delhi", "Kolkata", "Chennai", "London", "Moscow","Pune"]
         let cityTempList = []
         for (let i = 0; i < cities.length; i++) {
             let myCity = { city: cities[i] }
