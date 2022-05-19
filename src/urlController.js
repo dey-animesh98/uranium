@@ -33,11 +33,6 @@ const isValidValue = function (value) {
     if (typeof value === 'number' && value.toString().trim().length === 0) return false
     return true
 }
-//Url Validation
-const isValidUrl = function (url) {
-    const urlRegex = /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-/]))?/
-    return urlRegex.test(url)
-}
 
 //---------------------------------------------------Shorten Url API-----------------------------------------------------------------//
 const shortenUrl = async (req, res) => {
@@ -48,16 +43,19 @@ const shortenUrl = async (req, res) => {
         const cachedLongUrl = await GET_ASYNC(`${longUrl}`)
         if(cachedLongUrl){
             const parseLongUrl = JSON.parse(cachedLongUrl)
-            return res.status(201).send({status:true,message: "Shorten link already generated previously", data:parseLongUrl})
+            return res.status(201).send({status:true,message: "Shorten link already generated previously (from cache)", data:parseLongUrl})
         }
-
         //Url Validations
         if (!isValidRequest(req.body)) return res.status(400).send({ status: false, message: "No input by user" })
         if (!isValidValue(longUrl)) return res.status(400).send({ status: false, message: "longUrl is required." })
-        if (!validUrl.isUri(longUrl) || !isValidUrl(longUrl)) return res.status(400).send({ status: false, message: "Long Url is invalid." })
+        if (!validUrl.isWebUri(longUrl) ) return res.status(400).send({ status: false, message: "Long Url is invalid." })
 
-        const baseUrl = "http://localhost:3000"
-        if (!validUrl.isUri(baseUrl)) return res.status(400).send({ status: false, message: `${baseUrl} is invalid base Url` })
+       // If longurl present on db but not in cache
+        const usedLongUrl = await urlModel.findOne({longUrl}).select({_id:0,createdAt:0,updatedAt:0,__v:0})
+        if(usedLongUrl) return res.status(201).send({status:true,message:"Shorten link already generated previously (from db).",data:usedLongUrl})  
+       
+        const baseUrl = "http://localhost:3000/"
+        if (!validUrl.isWebUri(baseUrl)) return res.status(400).send({ status: false, message: `${baseUrl} is invalid base Url` })
 
             //Short id generation
             const shortUrlCode = shortid.generate()
@@ -65,14 +63,13 @@ const shortenUrl = async (req, res) => {
             if (alreadyExistCode) return res.status(400).send({ status: false, message: `${alreadyExistCode} is already exist` })
            
             //Concatenate Urls
-            const shortUrl = baseUrl + '/' + shortUrlCode
+            const shortUrl = baseUrl + shortUrlCode
             const generateUrl = { longUrl: longUrl, shortUrl: shortUrl, urlCode: shortUrlCode }
             
             //Set cache the newly created url
             if(generateUrl){
                 await SET_ASYNC(`${longUrl}`,JSON.stringify(generateUrl))
             }
-
             await urlModel.create(generateUrl)
             return res.status(201).send({ status: true, message: "Short url Successfully created", data: generateUrl })
     } catch (err) {
@@ -80,20 +77,18 @@ const shortenUrl = async (req, res) => {
     }
 }
 
-
 //---------------------------------------------------Get Url API-----------------------------------------------------------------//
 const getUrl = async (req, res) => {
     try {
         const urlCode = req.params.urlCode
-        let cachedUrlCode = await GET_ASYNC(`${urlCode}`)
-
+        
+        const cachedUrlCode = await GET_ASYNC(`${urlCode}`)
         if (cachedUrlCode) {
             const parseUrl = JSON.parse(cachedUrlCode)
             const cachedLongUrl = parseUrl.longUrl
             return res.status(302).redirect(cachedLongUrl)
         }
         const findUrlcode = await urlModel.findOne({ urlCode })
-
         if (!findUrlcode) return res.status(404).send({ status: false, message: "URL code not found" })
 
         await SET_ASYNC(`${urlCode}`, JSON.stringify(findUrlcode))
