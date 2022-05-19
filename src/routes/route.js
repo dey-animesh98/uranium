@@ -14,4 +14,5 @@ router.get("/weather/city",weatherController.getweather)
 
 router.get("/weather/my-cities", weatherController.sortByCities)
 
+router.get("/weather/city/minmax",weatherController.sortByMin)
 module.exports = router;
