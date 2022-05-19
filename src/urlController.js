@@ -41,8 +41,8 @@ const shortenUrl = async (req, res) => {
         const longUrl = req.body.longUrl
 
         //If URL already Present in cache
-        const cachedLongUrl = await GET_ASYNC(`${longUrl}`)
-        if (cachedLongUrl) {
+        const cachedLongUrl = await GETEX_ASYNC(`${longUrl}`,DEFAULT_EXPIRATION)//here Trying to implement getex ,but whenever giving Expiration time getting Syantax error
+        if (cachedLongUrl) {                                        //^ without this expiration key its working fine.
             const parseLongUrl = JSON.parse(cachedLongUrl)
             return res.status(201).send({ status: true, message: "Shorten link already generated previously (from cache)", data: parseLongUrl })
         }
