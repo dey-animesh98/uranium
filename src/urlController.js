@@ -40,7 +40,7 @@ const shortenUrl = async (req, res) => {
     try {
         const longUrl = req.body.longUrl
 
-        //If URL already Present
+        //If URL already Present in cache
         const cachedLongUrl = await GET_ASYNC(`${longUrl}`)
         if (cachedLongUrl) {
             const parseLongUrl = JSON.parse(cachedLongUrl)
@@ -51,7 +51,7 @@ const shortenUrl = async (req, res) => {
         if (!isValidValue(longUrl)) return res.status(400).send({ status: false, message: "longUrl is required." })
         if (!validUrl.isWebUri(longUrl)) return res.status(400).send({ status: false, message: "Long Url is invalid." })
 
-        // If longurl present on db but not in cache
+        // If longurl present in db but not in cache
         const usedLongUrl = await urlModel.findOne({ longUrl }).select({ _id: 0, createdAt: 0, updatedAt: 0, __v: 0 })
         if (usedLongUrl) return res.status(201).send({ status: true, message: "Shorten link already generated previously (from db).", data: usedLongUrl })
 
